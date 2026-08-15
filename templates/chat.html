@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+
+    <style>
+        @font-face {
+            font-family: "Baskvill";
+            src: url("/static/font/BASKVILL.TTF");
+        }
+
+        * {
+            font-family: "Baskvill";
+            color: white;
+            cursor: default;
+        }
+
+        :root {
+            --bg: #1c142b;
+            --header-color: #261b3a;
+        }
+
+        body {
+            background-color: var(--bg);
+            text-align: center;
+        }
+
+        textarea {
+            cursor: text;
+            width: 350px;
+            height: 200px;
+            font-size: 18px;
+            color: black;
+        }
+
+        button {
+            color: black;
+        }
+        
+        button, a {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="main">
+        <h1>Start Chat</h1>
+
+        <div class="chatbox">
+            <textarea id="message" placeholder="message ..."></textarea><br>
+            <button onclick="javascript:send();">Send</button>
+        </div>
+
+        <div class="result">
+            <pre id="res"></pre>
+        </div>
+    </div>
+
+    <script>
+        async function send() {
+            let val = document.getElementById("message").value;
+            let res = document.getElementById("res");
+            
+            if (val.trim() === "") {
+                alert("Please enter a valid value.");
+                return;
+            }
+            
+            res.innerText = "Processing your request...";
+            res.classList.add('loading');
+            
+            try {
+                let response = await fetch('/fetch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: val })
+                });
+                
+                let data = await response.json();
+                
+                res.classList.remove('loading');
+                
+                if (data.error) {
+                    res.innerText = "Error: " + data.response;
+                } else {
+                    res.innerText = "";
+                    data.response.split("\n").forEach(element => {
+                        res.innerHTML += `<a href=${element} target="_blank">${element}</a><br>`;
+                    });
+                }
+            } catch (error) {
+                res.classList.remove('loading');
+                res.innerText = "Error: Could not connect to server. Please try again.";
+                console.error('Error:', error);
+            }
+        }
+        document.getElementById('message').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.ctrlKey && !e.shiftKey) {
+                e.preventDefault();
+                send();
+            }
+        });
+    </script>
+</body>
+</html>

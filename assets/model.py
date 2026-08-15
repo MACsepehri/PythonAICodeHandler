@@ -1,6 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
-import urllib.parse
 
 class Stackoverflow:
     def search(self, Input, max_results=10, sort="relevance"):
@@ -90,6 +88,16 @@ class TrainerModel:
         self.data = []
         self.stackoverflow = Stackoverflow()
         self.w3school = W3Schools()
+        self.training_count = 0
+        self.last_query = None
+    
+    def get_params(self):
+        return {
+            'data_count': len(self.data),
+            'training_count': self.training_count,
+            'last_query': self.last_query,
+            'has_data': bool(self.data)
+        }
     
     def validInput(self, Input: str):
         if Input == "":
@@ -103,6 +111,8 @@ class TrainerModel:
     def train(self, data):
         if data not in self.data:
             self.data.append(data)
+            self.training_count += 1
+            self.last_query = data if data else None 
 
     def find(self, inp):
         for val in self.data:

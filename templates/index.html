@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding AI : AI Dev</title>
+
+    <style>
+        @font-face {
+            font-family: "Baskvill";
+            src: url("/static/font/BASKVILL.TTF");
+        }
+
+        * {
+            font-family: "Baskvill";
+            color: white;
+            cursor: default;
+        }
+
+        :root {
+            --bg: #1c142b;
+            --header-color: #261b3a;
+        }
+
+        body {
+            background-color: var(--bg);
+        }
+
+        header {
+            width: calc(100% - 100px);
+            height: 80px;
+            border-radius: 20px;
+            background: black;
+            margin: auto;
+            background: var(--header-color);
+            border-bottom: 2px solid;
+        }
+
+        header p {
+            text-align: right;
+            transform: translate(-30px, 30px);
+        }
+
+        nav a {
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: rgb(191, 191, 191);
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .sec-header {
+            margin: auto;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: wheat;
+        }
+
+        header nav {
+            padding-left: 20px;
+            transform: translateY(-13px);
+        }
+
+        .hr {
+            width: 600px;
+            height: 1px;
+            background: #454545;
+            margin: auto;
+        }
+
+        main * {
+            text-align: center;
+        }
+
+        p, pre {
+            font-size: 18px;
+        }
+
+        @media (max-width: 836px) {
+            .content * {
+                text-align: center;
+                padding: 0px;
+                margin: 0px;
+            }
+        }
+
+        @media (max-width: 836px) {
+            header {
+                width: calc(100% - 40px);
+                height: auto;
+                min-height: 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 10px 20px;
+            }
+            header p {
+                text-align: center;
+                transform: none;
+                margin: 0 0 5px 0;
+            }
+            header nav {
+                padding-left: 0;
+                transform: none;
+                text-align: center;
+            }
+            .hr {
+                width: 80%;
+                max-width: 400px;
+            }
+            p, pre {
+                font-size: 16px;
+                padding: 0 8px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            header {
+                width: calc(100% - 20px);
+                padding: 8px 10px;
+                min-height: 60px;
+            }
+            header p {
+                font-size: 16px;
+            }
+            nav a {
+                font-size: 16px;
+                padding: 5px 6px;
+            }
+            .hr {
+                width: 90%;
+            }
+            p, pre {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                max-width: 100%;
+                padding: 10px;
+                overflow-x: hidden;
+            }
+            header {
+                width: 100% !important;
+                padding: 8px 10px !important;
+            }
+            .hr {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="content">
+            <p style="font-size: 20px;">Invented by: Aryan (Known as MACsepehri)</p>
+            <nav>
+                <a href="/">Main page</a>
+                <a href="/download-model">Download models</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="sec-header">
+        <h1>Scrapper AI</h1>
+        <p>An AI based of searching in coding website<br>for sending user a nice answer.</p>
+    </div>
+    
+    <div style="padding: 15px;"></div>
+    <div class="hr"></div>
+    <div style="padding: 15px;"></div>
+
+    <main>
+        <div class="how-models-works">
+            <h2>How our models works ?</h2>
+            <pre>Our models start scarpping from web. From <a href="https://www.stackoverflow.com/">Stackover flow</a> to
+<a href="https://www.w3schools.com/">W3School</a>. Starts getting answer from Stackover flow first.
+Then W3School and more. Then, train the datas to the model
+And after that, send the result to user.</pre>
+        </div>
+
+        <div style="padding: 15px;"></div>
+        <div class="hr"></div>
+        <div style="padding: 15px;"></div>
+        <div class="start">
+            <h2>Start right now!</h2>
+            <pre><a href="/chat">Click me</a> to start chat with our models.</pre>
+        </div>
+
+        <div style="padding: 15px;"></div>
+        <footer>
+            <p>All rights reserved 2026 ©</p>
+        </footer>
+    </main>
+</body>
+</html>

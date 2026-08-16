@@ -55,7 +55,7 @@ class W3Schools:
                     {"title": "Python List Methods", "link": "https://www.w3schools.com/python/python_ref_list.asp"}
                 ],
                 "reverse": [
-                    {"title": "Python Reverse List", "link": "https://www.w3schools.com/python/python_howto_reverse_list.asp"}
+                    {"title": "Python Reverse List", "link": "https://www.w3schools.com/python/ref_list_reverse.asp"}
                 ],
                 "csv": [
                     {"title": "Python CSV", "link": "https://www.w3schools.com/python/python_csv.asp"}

@@ -1,6 +1,6 @@
 from assets.model import TrainerModel
-from assets.save_and_load import load
 import json
+import requests
 
 model = TrainerModel()
 array = [
@@ -157,7 +157,18 @@ array = [
 
 # model.data = load(cur_list=model.data)
 
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
+
 while True:
     Input = input("Enter your question: ")
-    for res in model.process(Input, json.load(open("data/main.json", "r"))["list"])["raw_response"]:
-        print(res)
+    res = model.process(Input, json.load(open("data/main.json", "r"))["list"])
+    for spl in res["raw_response"]:
+        spl = spl.split("\n")
+        for sp in spl:
+            url = sp
+            rep_url = sp.replace('/', '').replace(':', '')
+            with open(f"data/html/{rep_url}.html", "w") as file:
+                file.write(requests.get(url, headers=headers).text)
+    print(res["raw_response"])

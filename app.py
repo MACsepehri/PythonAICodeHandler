@@ -1,4 +1,5 @@
 from assets.model import TrainerModel
+from assets.save_and_load import load
 
 model = TrainerModel()
 array = [
@@ -139,8 +140,9 @@ array = [
     "linux nmap netcat"
 ]
 
+model.data = load(cur_list=model.data)
+
 for arr in array:
-    print(f"Model learned : {arr}")
     data = model.process(arr)
     url = []
     stackoverflow_links: list = data["stackoverflow_links"]
@@ -151,8 +153,10 @@ for arr in array:
 
     for link in w3school_links:
         url.append(link["link"])
-    print(data)
     model.save(url)
+    print(f"Model learned : {arr}")
+
+model.data = load(cur_list=model.data)
 
 while True:
     Input = input("Enter your question: ")

@@ -1,5 +1,6 @@
 from assets.model import TrainerModel
 from assets.save_and_load import load
+import json
 
 model = TrainerModel()
 array = [
@@ -140,24 +141,23 @@ array = [
     "linux nmap netcat"
 ]
 
-model.data = load(cur_list=model.data)
+# for arr in array:
+#     data = model.process(arr)
+#     url = []
+#     stackoverflow_links: list = data["stackoverflow_links"]
+#     w3school_links = data["w3schools_links"]
+#     if stackoverflow_links:
+#         for link in stackoverflow_links:
+#             url.append(link["link"])
 
-for arr in array:
-    data = model.process(arr)
-    url = []
-    stackoverflow_links: list = data["stackoverflow_links"]
-    w3school_links = data["w3schools_links"]
-    if stackoverflow_links:
-        for link in stackoverflow_links:
-            url.append(link["link"])
+#     for link in w3school_links:
+#         url.append(link["link"])
+#     model.save(url)
+#     print(f"Model learned : {arr}")
 
-    for link in w3school_links:
-        url.append(link["link"])
-    model.save(url)
-    print(f"Model learned : {arr}")
-
-model.data = load(cur_list=model.data)
+# model.data = load(cur_list=model.data)
 
 while True:
     Input = input("Enter your question: ")
-    print(model.process(Input=Input)["raw_response"])
+    for res in model.process(Input, json.load(open("data/main.json", "r"))["list"])["raw_response"]:
+        print(res)

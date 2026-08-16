@@ -32,7 +32,7 @@ def load(name="main", cur_list=None):
                 print(f"Loaded {added_count} new items from {path}")
             else:
                 print(f"No new items to load from {path}")
-            
+
             return cur_list
             
     except json.JSONDecodeError as e:

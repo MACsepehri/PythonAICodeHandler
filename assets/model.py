@@ -396,7 +396,7 @@ class TrainerModel:
                 return True
         return False
 
-    def process(self, Input: str):
+    def process(self, Input: str, Data: list = []):
         result = {
             'stackoverflow_links': [],
             'stackoverflow_codes': [],
@@ -407,53 +407,62 @@ class TrainerModel:
         if not self.validInput(Input):
             result['raw_response'] = "Please enter a valid input."
             return result
-        
-        if self.find(Input):
-            for val in self.data:
-                if Input.lower() == val.lower():
-                    result['raw_response'] = val
-                    return result
-        
-        if Input in self.cache:
-            print(f"Using cached result for: {Input}")
-            formatted_response = self.cache[Input]
+
+        if Data == []:
+            if self.find(Input):
+                for val in self.data:
+                    if Input.lower() == val.lower():
+                        result['raw_response'] = val
+                        return result
+            
+            if Input in self.cache:
+                print(f"Using cached result for: {Input}")
+                formatted_response = self.cache[Input]
+                result['raw_response'] = formatted_response
+                self.train(formatted_response)
+                return result
+            
+            stackoverflow_results = self.stackoverflow.search(Input)
+            
+            if stackoverflow_results:
+                for idx, item in enumerate(stackoverflow_results[:5], 1):
+                    result['stackoverflow_links'].append({
+                        'title': item.get('title', 'Untitled'),
+                        'link': item.get('link', '#')
+                    })
+            else:
+                result['raw_response'] += "No Stack Overflow results found.\n\n"
+            
+            w3school_results = self.w3school.search(Input)
+            if w3school_results:
+                for item in w3school_results[:5]:
+                    result['w3schools_links'].append({
+                        'title': item['title'],
+                        'link': item['link']
+                    })
+            else:
+                result['raw_response'] += "No W3Schools results found.\n"
+            
+            formatted_response = self._format_response(result)
             result['raw_response'] = formatted_response
-            self.train(formatted_response)
+            
+            if formatted_response and formatted_response != "No results found." and not formatted_response.startswith("No Stack Overflow"):
+                self.cache[Input] = formatted_response
+                self.train(formatted_response)
+                print(f"Successfully learned: {Input}")
+            else:
+                self.cache[Input] = formatted_response
+                print(f"No results to learn for: {Input}")
+            
             return result
-        
-        stackoverflow_results = self.stackoverflow.search(Input)
-        
-        if stackoverflow_results:
-            for idx, item in enumerate(stackoverflow_results[:5], 1):
-                result['stackoverflow_links'].append({
-                    'title': item.get('title', 'Untitled'),
-                    'link': item.get('link', '#')
-                })
         else:
-            result['raw_response'] += "No Stack Overflow results found.\n\n"
-        
-        w3school_results = self.w3school.search(Input)
-        if w3school_results:
-            for item in w3school_results[:5]:
-                result['w3schools_links'].append({
-                    'title': item['title'],
-                    'link': item['link']
-                })
-        else:
-            result['raw_response'] += "No W3Schools results found.\n"
-        
-        formatted_response = self._format_response(result)
-        result['raw_response'] = formatted_response
-        
-        if formatted_response and formatted_response != "No results found." and not formatted_response.startswith("No Stack Overflow"):
-            self.cache[Input] = formatted_response
-            self.train(formatted_response)
-            print(f"Successfully learned: {Input}")
-        else:
-            self.cache[Input] = formatted_response
-            print(f"No results to learn for: {Input}")
-        
-        return result
+            l = []
+            with open(f"data/main.json", "r") as file:
+                content = json.load(file)["list"]
+                for con in content:
+                    if Input.lower() in con.lower():
+                        l.append(con)
+            return {"raw_response": l}
 
     def save(self, data, name="main"):
         if isinstance(data, str):

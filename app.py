@@ -32,6 +32,7 @@ array = [
     "python socket programming",
     "python logging config",
     "python unittest example",
+    "how to add a list into another list in python?",
     "javascript array map example",
     "javascript fetch api get",
     "javascript promises async await",
@@ -140,7 +141,19 @@ array = [
 
 for arr in array:
     print(f"Model learned : {arr}")
-    model.process(arr)
+    data = model.process(arr)
+    url = []
+    stackoverflow_links: list = data["stackoverflow_links"]
+    w3school_links = data["w3schools_links"]
+    if stackoverflow_links:
+        for link in stackoverflow_links:
+            url.append(link["link"])
+
+    for link in w3school_links:
+        url.append(link["link"])
+    print(data)
+    model.save(url)
+
 while True:
     Input = input("Enter your question: ")
     print(model.process(Input=Input)["raw_response"])

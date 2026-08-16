@@ -1,5 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
 
 class Stackoverflow:
     def search(self, Input, max_results=10, sort="relevance"):
@@ -34,84 +33,6 @@ class Stackoverflow:
         except ValueError as e:
             print(f"Invalid JSON response: {e}")
             return None
-
-    def extract_code_from_source(self, beautifulsoup_obj: BeautifulSoup):
-        """
-        Extract all code blocks from a Stack Overflow page HTML.
-        
-        Args:
-            beautifulsoup_obj (BeautifulSoup): Parsed BeautifulSoup object of the page
-            
-        Returns:
-            list: List of dictionaries containing code snippets and their languages
-        """
-        code_blocks = []
-        
-        # Method 1: Find all <pre><code> blocks
-        pre_tags = beautifulsoup_obj.find_all('pre')
-        for pre in pre_tags:
-            code_tag = pre.find('code')
-            if code_tag:
-                code_text = code_tag.get_text().strip()
-                
-                # Detect language
-                language = "unknown"
-                if code_tag.get('class'):
-                    for cls in code_tag.get('class'):
-                        if cls.startswith('language-'):
-                            language = cls.replace('language-', '')
-                            break
-                        elif cls.startswith('lang-'):
-                            language = cls.replace('lang-', '')
-                            break
-                
-                if language == "unknown" and code_tag.get('data-language'):
-                    language = code_tag.get('data-language')
-                
-                if language == "unknown" and pre.get('class'):
-                    for cls in pre.get('class'):
-                        if cls.startswith('lang-'):
-                            language = cls.replace('lang-', '')
-                            break
-                
-                if code_text and len(code_text) > 0:
-                    code_blocks.append({
-                        'code': code_text,
-                        'language': language,
-                        'type': 'pre-code'
-                    })
-        
-        # Method 2: Find code blocks in divs with s-code-block class
-        code_divs = beautifulsoup_obj.find_all('div', class_='s-code-block')
-        for div in code_divs:
-            code_tag = div.find('code')
-            if code_tag:
-                code_text = code_tag.get_text().strip()
-                
-                language = "unknown"
-                if div.get('data-language'):
-                    language = div.get('data-language')
-                elif div.get('class'):
-                    for cls in div.get('class'):
-                        if cls.startswith('language-'):
-                            language = cls.replace('language-', '')
-                            break
-                
-                if code_text and len(code_text) > 0:
-                    already_exists = False
-                    for existing in code_blocks:
-                        if existing['code'] == code_text:
-                            already_exists = True
-                            break
-                    
-                    if not already_exists:
-                        code_blocks.append({
-                            'code': code_text,
-                            'language': language,
-                            'type': 's-code-block'
-                        })
-        
-        return code_blocks
 
 class W3Schools:
     def __init__(self):
@@ -221,23 +142,6 @@ class TrainerModel:
                         'title': item.get('title', 'Untitled'),
                         'link': link
                     })
-                    
-                    try:
-                        response = requests.get(link, timeout=10)
-                        response.raise_for_status()
-                        soup = BeautifulSoup(response.content, 'html.parser')
-                        
-                        code_blocks = self.stackoverflow.extract_code_from_source(soup)
-                        
-                        if code_blocks:
-                            for code_block in code_blocks[:3]:
-                                result['stackoverflow_codes'].append({
-                                    'source_link': link,
-                                    'code': code_block['code'],
-                                    'language': code_block['language']
-                                })
-                    except Exception as e:
-                        print(f"Error fetching page {link}: {e}")
             else:
                 result['raw_response'] += "No Stack Overflow results found.\n\n"
             

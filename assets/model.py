@@ -88,8 +88,8 @@ class W3Schools:
                 "file": [
                     {"title": "Python File Handling", "link": "https://www.w3schools.com/python/python_file_handling.asp"}
                 ],
-                "flask": [
-                    {"title": "Python Flask", "link": "https://www.w3schools.com/python/python_flask.asp"}
+                "django": [
+                    {"title": "Python Django", "link": "http://w3schools.com/django/"}
                 ],
                 "mysql": [
                     {"title": "Python MySQL", "link": "https://www.w3schools.com/python/python_mysql_getstarted.asp"}

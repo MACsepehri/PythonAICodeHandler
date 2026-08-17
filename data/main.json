@@ -15,7 +15,7 @@
     "https://www.w3schools.com/python/",
     "https://www.w3schools.com/python/python_regex.asp",
     "https://www.w3schools.com/python/python_datetime.asp",
-    "https://www.w3schools.com/python/python_flask.asp",
+    "http://w3schools.com/django/",
     "https://www.w3schools.com/sql/",
     "https://www.w3schools.com/sql/sql_select.asp",
     "https://www.w3schools.com/js/js_arrays.asp",
@@ -95,8 +95,6 @@
     "https://www.w3schools.com/sql/sql_transactions.asp",
     "https://www.w3schools.com/sql/sql_window_functions.asp",
     "https://www.w3schools.com/html/",
-    "https://www.w3schools.com/html/html_forms.asp",
-    "https://www.w3schools.com/css/",
-    "https://www.w3schools.com/css/css_selectors.asp"
+    "https://www.w3schools.com/html/html_forms.asp"
   ]
 }

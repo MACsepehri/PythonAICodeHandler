@@ -294,22 +294,25 @@ def main(arr):
             os.system("cls")
             continue
         res = model.process(Input, json.load(open("data/main.json", "r"))["list"])
+        index = 1
         for raw in res["raw_response"]:
             url = raw
             f = url.replace(":", "").replace("/", "").replace(".", "")
             for files in os.listdir("data/html"):
                 f=f+".html"
-                print(f"1. {files}\n2. {f}")
                 if files == f:
                     reset = True
             if reset:
+                print(f"{index}. {url}")
+                index += 1
                 continue
             else:
                 learnData(res)
                 html = requests.get(url, headers=headers).text
                 with open(f"data/html/{f}", "w", encoding="utf-8") as file:
                     file.write(html)
-                print(url)
+                print(f"{index}. {url}\n")
+                index += 1
 
 if __name__ == "__main__":
     main(array)

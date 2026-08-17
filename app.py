@@ -1,6 +1,6 @@
 from assets.model import TrainerModel
 import json
-import requests
+import os
 
 model = TrainerModel()
 array = [
@@ -138,24 +138,148 @@ array = [
     "linux useradd usermod",
     "linux mount fstab",
     "linux ping traceroute",
-    "linux nmap netcat"
+    "linux nmap netcat",
+
+    "python type hints mypy example",
+    "python dataclasses vs pydantic",
+    "python context manager with statement",
+    "python generator yield next",
+    "python asyncio gather tasks",
+    "python aiohttp client session",
+    "python pytest fixture mock",
+    "python property decorator getter setter",
+    "python enum example",
+    "python functools lru_cache",
+    "python logging handler formatter",
+    "python argparse command line",
+    "python shutil copy move",
+    "python subprocess run pipe",
+    "python multiprocessing pool map",
+    "python pickle load dump",
+    "python zipfile extract",
+    "python pathlib example",
+    "python random choice shuffle",
+    "python collections defaultdict counter",
+    "python itertools chain cycle",
+    "python json custom encoder decoder",
+    "python sqlalchemy session query",
+    "python fastapi path params",
+    "python pydantic model validator",
+    "python celery task example",
+    "python redis set get",
+    "python mongodb pymongo find",
+    "python plotly interactive chart",
+    "python seaborn heatmap",
+
+    "html dialog modal example",
+    "html details summary tag",
+    "html picture srcset responsive images",
+    "html input datalist autocomplete",
+    "html input range slider",
+    "html input color picker",
+    "html input date min max",
+    "html input file multiple accept",
+    "html input pattern regex",
+    "html contenteditable example",
+    "html draggable drag drop",
+    "html geolocation api example",
+    "html web storage local session",
+    "html service worker register",
+    "html web workers example",
+    "html intersection observer lazy load",
+    "html resize observer example",
+    "html form validation custom error",
+    "html output element example",
+    "html meter progress bar",
+    "html template tag example",
+    "html slot shadow dom",
+    "html custom elements define",
+    "html inert attribute example",
+    "html popover attribute",
+    "html view transition api",
+    "html loading lazy attribute",
+    "html decoding async defer scripts",
+    "html preload prefetch",
+    "html srcset sizes attribute",
+
+    "css container queries example",
+    "css subgrid layout",
+    "css logical properties inset inline",
+    "css accent-color checkbox radio",
+    "css color-scheme dark light",
+    "css :has() selector example",
+    "css :is :where :not pseudo",
+    "css nth-child advanced",
+    "css scroll-behavior smooth",
+    "css scroll-snap example",
+    "css overscroll-behavior",
+    "css aspect-ratio property",
+    "css object-fit cover contain",
+    "css backdrop-filter blur",
+    "css mix-blend-mode example",
+    "css mask-image clip-path",
+    "css shape-outside float",
+    "css writing-mode vertical",
+    "css column-count multiple",
+    "css counter-increment style",
+    "css @supports feature query",
+    "css @layer cascade layers",
+    "css @property custom property",
+    "css animation-fill-mode",
+    "css perspective transform 3d",
+    "css will-change performance",
+    "css focus-visible outline",
+    "css scrollbar styling webkit",
+    "css print media styles",
+    "css prefers-color-scheme media",
+
+    "javascript optional chaining ?.",
+    "javascript nullish coalescing ??",
+    "javascript top-level await example",
+    "javascript proxy handler example",
+    "javascript reflect api example",
+    "javascript weakmap weakset",
+    "javascript symbol iterator example",
+    "javascript generator function yield*",
+    "javascript async generator",
+    "javascript for await of loop",
+    "javascript promise.allsettled",
+    "javascript promise.any race",
+    "javascript abortcontroller fetch",
+    "javascript broadcastchannel api",
+    "javascript share target api",
+    "javascript clipboard read write",
+    "javascript fullscreen api",
+    "javascript vibration api",
+    "javascript battery status api",
+    "javascript network information",
+    "javascript performance measure",
+    "javascript intersection observer",
+    "javascript mutation observer",
+    "javascript resize observer",
+    "javascript reporting observer",
+    "javascript structured clone",
+    "javascript atob btoa example",
+    "javascript blob arraybuffer",
+    "javascript stream api example",
+    "javascript readable stream pipe"
 ]
 
-# for arr in array:
-#     data = model.process(arr)
-#     url = []
-#     stackoverflow_links: list = data["stackoverflow_links"]
-#     w3school_links = data["w3schools_links"]
-#     if stackoverflow_links:
-#         for link in stackoverflow_links:
-#             url.append(link["link"])
+for arr in array:
+    data = model.process(arr)
+    url = []
+    stackoverflow_links: list = data["stackoverflow_links"]
+    w3school_links = data["w3schools_links"]
+    if stackoverflow_links:
+        for link in stackoverflow_links:
+            url.append(link["link"])
 
-#     for link in w3school_links:
-#         url.append(link["link"])
-#     model.save(url)
-#     print(f"Model learned : {arr}")
+    for link in w3school_links:
+        url.append(link["link"])
+    model.save(url)
+    print(f"Model learned : {arr}")
 
-# model.data = load(cur_list=model.data)
+model.data = json.load(open("data/main.json", "r"))["list"]
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -163,12 +287,9 @@ headers = {
 
 while True:
     Input = input("Enter your question: ")
+    if Input == "cls":
+        os.system("cls")
+        continue
     res = model.process(Input, json.load(open("data/main.json", "r"))["list"])
-    for spl in res["raw_response"]:
-        spl = spl.split("\n")
-        for sp in spl:
-            url = sp
-            rep_url = sp.replace('/', '').replace(':', '')
-            with open(f"data/html/{rep_url}.html", "w") as file:
-                file.write(requests.get(url, headers=headers).text)
-    print(res["raw_response"])
+    for raw in res["raw_response"]:
+        print(raw)

@@ -282,6 +282,7 @@ def learnData(arrays):
         print(f"Model learned : {arr}")
 
 def main(arr):
+    reset = False
     # learnData(arr)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -295,11 +296,20 @@ def main(arr):
         res = model.process(Input, json.load(open("data/main.json", "r"))["list"])
         for raw in res["raw_response"]:
             url = raw
-            html = requests.get(url, headers=headers).text
             f = url.replace(":", "").replace("/", "").replace(".", "")
-            with open(f"data/html/{f}.html", "w", encoding="utf-8") as file:
-                file.write(html)
-            print(url)
+            for files in os.listdir("data/html"):
+                f=f+".html"
+                print(f"1. {files}\n2. {f}")
+                if files == f:
+                    reset = True
+            if reset:
+                continue
+            else:
+                learnData(res)
+                html = requests.get(url, headers=headers).text
+                with open(f"data/html/{f}", "w", encoding="utf-8") as file:
+                    file.write(html)
+                print(url)
 
 if __name__ == "__main__":
     main(array)
